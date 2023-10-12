@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('first_name', 30);
             $table->string('last_name', 30);
-            $table->unsignedSmallInteger ('age');
             $table->string('gender', 6);
             $table->string('mobile', 15);
             $table->date('dob');
+            $table->string('profile_image')->nullable();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('address_id')->constrained('addresses')->cascadeOnDelete();
             $table->timestamps();

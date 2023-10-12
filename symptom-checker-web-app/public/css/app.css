@@ -87,6 +87,10 @@ body {
     margin-bottom: 140px;
 }
 
+.home-section-three {
+    margin-top: 140px;
+    margin-bottom: 140px;
+}
 
 .home-section-two-list li {
     color: var(--primary);
@@ -99,6 +103,13 @@ body {
     color: black;
     font-size: medium;
 }
+
+.home-section-three-list {
+    color: var(--primary);
+    margin-bottom: 25px;
+    font-size: 20px;
+    line-height: 1;
+} 
 
 
 /* Footer */

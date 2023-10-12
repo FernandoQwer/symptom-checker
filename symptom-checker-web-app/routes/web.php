@@ -2,10 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PatientController;
+use App\Http\Controllers\SymptomCheckerController;
 
 Route::get('/', function () {
     return view('index');
 });
+
 
 // Auth Views
 Route::middleware(['guest'])->group(function () {
@@ -22,11 +25,21 @@ Route::middleware(['guest'])->group(function () {
 
 
 
+Route::get('/symptom-checker', [SymptomCheckerController::class, 'symptomCheckerView']);
+
+
 Route::middleware(['auth'])->group(function () {
-    Route::get('patient/dashboard', function () {
-        return view('patient/dashboard');
-    })->name('patient.dashboard');
+
+    // return view('patient/dashboard');
+
+    Route::get('patient/dashboard', [PatientController::class, 'patientDashboard'])->name('patient.dashboard');
+    Route::get('patient/change-password', [PatientController::class, 'changePasswordView'])->name('patient.change-password');
+    Route::get('patient/predictions', [PatientController::class, 'predictionResultsView'])->name('patient.predictions');
+    
     Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
+
+    Route::put('patient/update-profile', [PatientController::class, 'updatePatient'])->name('patient.update');
+    Route::put('patient/update-password', [PatientController::class, 'updatePassword'])->name('patient.update-password');
 });
 
 
