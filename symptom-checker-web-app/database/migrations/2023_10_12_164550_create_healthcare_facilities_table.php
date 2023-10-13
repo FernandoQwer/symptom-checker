@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('description');
             $table->string('contact_phone', 15);
             $table->string('contact_email', 120);
-            $table->string('type', 15);
+            $table->string('type', 30);
             $table->string('profile_image')->nullable();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('address_id')->constrained('addresses')->cascadeOnDelete();
