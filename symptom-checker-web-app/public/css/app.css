@@ -112,6 +112,13 @@ body {
 } 
 
 
+/* Symptom Checker */
+.predict-btn{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
 /* Footer */
 .quick-links ul {
     list-style-type: none;

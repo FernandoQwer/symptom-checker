@@ -32,6 +32,7 @@ Route::middleware(['guest'])->group(function () {
 
 
 Route::get('/symptom-checker', [SymptomCheckerController::class, 'symptomCheckerView']);
+Route::post('/predict', [SymptomCheckerController::class, 'predict']);
 
 
 Route::middleware(['auth'])->group(function () {
@@ -40,6 +41,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/healthcare-facility/dashboard', [HealthcareFacilityController::class, 'dashboard'])->name('healthcare-facility.dashboard');
     
+    
+    Route::get('/patient/add-new-appointment/{predictionID}', [PatientController::class, 'newAppointmentPage']);
     
     Route::get('patient/dashboard', [PatientController::class, 'patientDashboard'])->name('patient.dashboard');
     Route::get('patient/change-password', [PatientController::class, 'changePasswordView'])->name('patient.change-password');

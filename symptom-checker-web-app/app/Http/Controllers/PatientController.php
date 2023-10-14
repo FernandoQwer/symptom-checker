@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Address;
+use App\Models\Appointment;
+use App\Models\HealthCondition;
 use App\Models\Patient;
+use App\Models\Prediction;
 use App\Models\User;
+use App\Models\UserFeedback;
+use App\Models\UserSymptom;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class PatientController extends Controller
@@ -91,7 +97,7 @@ class PatientController extends Controller
     }
 
 
-    // Patient Change Password View
+
     public function predictionResultsView()
     {
         $userID = Auth::user()->id;
@@ -99,6 +105,51 @@ class PatientController extends Controller
         $patient = Patient::where('user_id', $userID)->first();
         $patient->email = Auth::user()->email;
 
-        return view('patient.predictions', compact('patient'));
+        $predictions = DB::table('predictions')
+            ->join('health_conditions', 'predictions.health_condition_id', '=', 'health_conditions.id')
+            ->select('predictions.*', 'health_conditions.severity_level')
+            ->get();
+
+        foreach ($predictions as $prediction) {
+            $prediction->user_feedback = UserFeedback::where('prediction_id', $prediction->id)->first();
+
+            $prediction->appointment = Appointment::where('prediction_id', $prediction->id)->first();
+
+            $prediction->user_symptoms = DB::table('user_symptoms')
+                ->join('symptoms', 'user_symptoms.symptom_id', '=', 'symptoms.id')
+                ->select('symptoms.symptom')
+                ->where('user_symptoms.prediction_id', $prediction->id)
+                ->get();
+        }
+
+        return view('patient.predictions', compact('patient', 'predictions'));
+    }
+
+
+    public function newAppointmentPage($predictionID)
+    {
+        $patientID = Patient::where('user_id', Auth::user()->id)->first()->id;
+        $prediction = Prediction::where('id', $predictionID)->first();
+        $appointment = Appointment::where('prediction_id', $prediction->id)->first();
+
+        if ($patientID != $prediction->patient_id || $appointment) {
+            return abort(401);
+        }
+
+        $prediction->user_symptoms = DB::table('user_symptoms')
+            ->join('symptoms', 'user_symptoms.symptom_id', '=', 'symptoms.id')
+            ->select('symptoms.symptom')
+            ->where('user_symptoms.prediction_id', $prediction->id)
+            ->get();
+
+        $healthProfessionals = DB::table('health_condition_specialties')
+            ->join('specialties', 'health_condition_specialties.speciality_id', '=', 'specialties.id')
+            ->select('specialties.specialty')
+            ->where('health_condition_specialties.health_condition_id', '=', $prediction->health_condition_id)
+            ->get();
+
+        $prediction->health_professionals = $healthProfessionals;
+
+        return view('patient.add-new-appointment', compact('prediction'));
     }
 }

@@ -10,5 +10,5 @@ class Speciality extends Model
 {
     use HasFactory;
 
-    protected $table = "Specialties";
+    protected $table = "specialties";
 }

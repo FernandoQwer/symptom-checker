@@ -5,16 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Prediction extends Model
+class UserSymptom extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'prediction',
-        'score',
-        'patient_id',
-        'health_condition_id'
+        'prediction_id',
+        'symptom_id'
     ];
 
-    protected $table = "predictions";
+    protected $table = "user_symptoms";
 }
