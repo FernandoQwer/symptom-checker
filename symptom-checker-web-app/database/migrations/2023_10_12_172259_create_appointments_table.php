@@ -18,7 +18,7 @@ return new class extends Migration
             $table->time('end_time', $precision = 0);
             $table->foreignId('healthcare_provider_id')->constrained('healthcare_providers')->cascadeOnDelete();
             $table->foreignId('prediction_id')->constrained('predictions')->cascadeOnDelete();
-            $table->text('notes');
+            $table->text('notes')->nullable();
             $table->string('status', 12);
             $table->timestamps();
         });

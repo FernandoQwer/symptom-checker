@@ -19,7 +19,9 @@ class SymptomCheckerController extends Controller
 
     public function symptomCheckerView()
     {
-        return view('symptom-checker');
+        $symptoms = Symptom::orderBy('symptom', 'asc')->get();;
+
+        return view('symptom-checker', compact('symptoms'));
     }
 
 
@@ -28,7 +30,12 @@ class SymptomCheckerController extends Controller
 
         $url = '127.0.0.1:5000/symptom-checker';
 
-        $userSymptoms = $request->user_symptoms;
+        $userSymptoms = array();
+
+        foreach($request->user_symptoms as $userSymptom){
+            $symptom = Symptom::where('symptom', $userSymptom)->first()->symptom_key;
+            $userSymptoms[] = $symptom;
+        }
 
         $response = Http::post($url, ['user_symptoms' =>  $userSymptoms]);
 
@@ -50,7 +57,7 @@ class SymptomCheckerController extends Controller
         $symptoms = array();
 
         // Patient
-        if (Auth::check()) {
+        if (Auth::check() && Auth::user()->role == "patient") {
             $patientID = Patient::where('user_id', Auth::id())->first()->id;
 
             $userPrediction = new Prediction;

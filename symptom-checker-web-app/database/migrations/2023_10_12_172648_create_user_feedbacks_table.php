@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('prediction_id')->constrained('predictions')->cascadeOnDelete();
             $table->tinyInteger('rating');
-            $table->string('comment', 150);
+            $table->string('comment', 150)->nullable();
             $table->timestamps();
         });
     }

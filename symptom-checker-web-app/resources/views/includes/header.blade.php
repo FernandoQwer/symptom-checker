@@ -1,3 +1,7 @@
+<script>
+  const base_path = "http://127.0.0.1:8000";
+</script>
+
 <!-- As a heading -->
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container py-2">
@@ -25,7 +29,12 @@
       <div class="gx-2 ">
         @auth
         <form action="{{ route('auth.logout') }}" method="post">
-          <a type="button" class="btn primary-button" href="{{ route('patient.dashboard') }}">My Account</a>
+          @if(auth()->user()->role == "patient")
+            <a type="button" class="btn primary-button" href="{{ route('patient.dashboard') }}">My Account</a>
+          @elseif(auth()->user()->role == "facility")
+            <a type="button" class="btn primary-button" href="{{ route('healthcare-facility.dashboard') }}">My Account</a>
+          @endif
+          
           @csrf
           <button type="submit" class="btn danger-button">Logout</button>
         </form>

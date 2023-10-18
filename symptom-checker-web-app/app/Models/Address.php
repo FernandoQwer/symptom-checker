@@ -17,4 +17,6 @@ class Address extends Model
     ];
 
     protected $table = "Addresses";
+
+    public $timestamps = false;
 }

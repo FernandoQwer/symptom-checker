@@ -50,7 +50,7 @@
                                 <option selected value="hospital">Hospital</option>
                                 <option value="healthcare center">Healthcare center</option>
                                 <option value="nursing home">Nursing Homes</option>
-                                <option value="clinics ">Clinics</option>
+                                <option value="clinics">Clinics</option>
                             </select>
                             {{-- <input type="text" class="form-control" name="mobile" value="{{ old('mobile') }}"> --}}
                             @error('type')

@@ -143,3 +143,18 @@ body {
     text-decoration: none;
     color: white;
 }
+
+.star {
+    display: none;
+  }
+  
+  .star + label:before {
+    content: "\2605"; /* Unicode character for a star */
+    font-size: 20px; /* Adjust the size as needed */
+    color: gold; /* Color of the star */
+    cursor: pointer;
+  }
+  
+  .star:checked + label:before {
+    color: red; /* Color of the star when selected */
+  }

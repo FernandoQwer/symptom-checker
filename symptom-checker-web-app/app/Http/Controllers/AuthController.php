@@ -30,6 +30,14 @@ class AuthController extends Controller
         ])) {
             $request->session()->regenerate();
             return redirect('/patient/dashboard')->with('status', 'Login Successfully!');
+        }elseif(Auth::attempt([
+            'email' => $request->email,
+            'password' => $request->password,
+            'role'      => "facility",
+            'is_active' => TRUE
+        ])){
+            $request->session()->regenerate();
+            return redirect('/healthcare-facility/dashboard')->with('status', 'Login Successfully!');
         }
 
         return back()->with('error', 'Invalid Credentials!');
